@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { Search, Menu, X, ShoppingCart, FolderOpen, User, ChevronDown } from 'lucide-react'
 import { useCartStore } from '../../stores/cartStore'
+import { useAuthStore } from '../../stores/authStore'
 import type { Category } from '../../lib/supabase'
 
 interface ModernNavbarProps {
@@ -11,6 +13,7 @@ export default function ModernNavbar({
     categories = [],
 }: ModernNavbarProps) {
     const { toggleCart, getTotal, getItemCount } = useCartStore()
+    const { user } = useAuthStore()
     const cartCount = getItemCount()
     const cartTotal = getTotal()
     const [isScrolled, setIsScrolled] = useState(false)
@@ -94,9 +97,14 @@ export default function ModernNavbar({
                             </a>
 
                             {/* Account */}
-                            <button className="hidden sm:flex navbar__btn">
+                            {/* Account */}
+                            <Link
+                                to={user ? "/dashboard" : "/auth/login"}
+                                className="hidden sm:flex navbar__btn"
+                                title={user ? "Mi Cuenta" : "Iniciar Sesión"}
+                            >
                                 <User size={20} />
-                            </button>
+                            </Link>
 
                             {/* Cart */}
                             <button onClick={toggleCart} className="navbar__btn navbar__btn--primary relative">

@@ -36,15 +36,14 @@ export default function ProjectsGrid() {
 
             // Get projects with item count
             const { data, error } = await supabase
-                .from('ele_project_lists')
+                .from('project_lists')
                 .select(`
           id,
           name,
           description,
-          status,
-          total_estimate,
+          is_active_cart,
           created_at,
-          ele_project_list_items(count)
+          project_list_items(count)
         `)
                 .eq('user_id', user.id)
                 .eq('is_active_cart', false)
@@ -54,7 +53,9 @@ export default function ProjectsGrid() {
 
             const projectsWithCount = (data || []).map(project => ({
                 ...project,
-                item_count: project.ele_project_list_items?.[0]?.count || 0
+                status: 'draft' as const,
+                total_estimate: 0,
+                item_count: project.project_list_items?.[0]?.count || 0
             }))
 
             setProjects(projectsWithCount)
@@ -69,7 +70,7 @@ export default function ProjectsGrid() {
         try {
             // Get project details with items
             const { data: project, error: projectError } = await supabase
-                .from('ele_project_lists')
+                .from('project_lists')
                 .select('*')
                 .eq('id', projectId)
                 .single()
@@ -77,11 +78,11 @@ export default function ProjectsGrid() {
             if (projectError) throw projectError
 
             const { data: items, error: itemsError } = await supabase
-                .from('ele_project_list_items')
+                .from('project_list_items')
                 .select(`
           quantity,
           notes,
-          ele_products(name, sku, price_list)
+          product:products(name, sku, price)
         `)
                 .eq('list_id', projectId)
 
@@ -123,14 +124,15 @@ export default function ProjectsGrid() {
             let total = 0
 
             items?.forEach((item: any) => {
-                const product = item.ele_products
-                const subtotal = (product?.price_list || 0) * item.quantity
+                const product = item.product
+                const price = Number(product?.price || 0)
+                const subtotal = price * item.quantity
                 total += subtotal
 
                 doc.text(product?.name?.substring(0, 35) || '', 20, y)
                 doc.text(product?.sku || '', 100, y)
                 doc.text(String(item.quantity), 140, y)
-                doc.text(`$${(product?.price_list || 0).toLocaleString('es-AR')}`, 160, y)
+                doc.text(`$${price.toLocaleString('es-AR')}`, 160, y)
                 doc.text(`$${subtotal.toLocaleString('es-AR')}`, 180, y)
 
                 y += 8

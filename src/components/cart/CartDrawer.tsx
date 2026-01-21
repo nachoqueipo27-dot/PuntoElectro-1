@@ -1,4 +1,4 @@
-import { X, Plus, Minus, Trash2, FolderPlus, ShoppingBag } from 'lucide-react'
+import { X, Plus, Minus, Trash2, FolderPlus, ShoppingBag, MessageCircle } from 'lucide-react'
 import { useCartStore } from '../../stores/cartStore'
 import { useUIStore } from '../../stores/uiStore'
 
@@ -14,6 +14,32 @@ export default function CartDrawer() {
     const handleSaveAsProject = () => {
         closeCart()
         openSaveProjectModal()
+    }
+
+    // WhatsApp Checkout Handler
+    const handleWhatsAppCheckout = () => {
+        const WHATSAPP_NUMBER = '5491141412148'
+
+        // Build formatted message
+        let message = '¡Hola Punto Electro! 👋\n\n'
+        message += 'Quiero realizar el siguiente pedido:\n\n'
+
+        items.forEach(item => {
+            const subtotal = (item.product.price_list || 0) * item.quantity
+            message += `• ${item.quantity}x ${item.product.name}\n`
+            message += `  📦 SKU: ${item.product.sku}\n`
+            message += `  💰 Subtotal: $${subtotal.toLocaleString('es-AR')}\n\n`
+        })
+
+        message += `━━━━━━━━━━━━━━━━━━━━\n`
+        message += `💵 *Total Estimado: $${total.toLocaleString('es-AR')}*\n\n`
+        message += `¡Gracias!`
+
+        // Encode and open WhatsApp
+        const encodedMessage = encodeURIComponent(message)
+        const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`
+
+        window.open(whatsappUrl, '_blank')
     }
 
     return (
@@ -123,8 +149,12 @@ export default function CartDrawer() {
 
                         {/* Actions */}
                         <div className="space-y-3">
-                            <button className="btn btn--primary btn--lg w-full">
-                                Continuar Compra
+                            <button
+                                onClick={handleWhatsAppCheckout}
+                                className="btn btn--lg w-full bg-green-500 hover:bg-green-600 text-white flex items-center justify-center gap-2"
+                            >
+                                <MessageCircle size={20} />
+                                Pedir por WhatsApp
                             </button>
 
                             <button
