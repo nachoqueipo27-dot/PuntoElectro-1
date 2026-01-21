@@ -98,7 +98,7 @@ export interface ProjectListItem {
 
 export async function getCategories(): Promise<Category[]> {
     const { data, error } = await supabase
-        .from('ele_categories')
+        .from('categories')
         .select('*')
         .eq('is_active', true)
         .order('display_order')
@@ -130,11 +130,11 @@ export async function getProducts(options?: {
     limit?: number
 }): Promise<Product[]> {
     let query = supabase
-        .from('ele_products')
+        .from('products')
         .select(`
       *,
-      brand:ele_brands(*),
-      category:ele_categories(*)
+      brand:brands(*),
+      category:categories(*)
     `)
         .eq('is_active', true)
 
@@ -154,7 +154,7 @@ export async function getProducts(options?: {
 
 export async function getBrands(): Promise<Brand[]> {
     const { data, error } = await supabase
-        .from('ele_brands')
+        .from('brands')
         .select('*')
         .eq('is_active', true)
         .order('name')

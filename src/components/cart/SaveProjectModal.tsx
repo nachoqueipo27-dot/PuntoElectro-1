@@ -39,14 +39,12 @@ export default function SaveProjectModal() {
 
             // Create project
             const { data: project, error: projectError } = await supabase
-                .from('ele_project_lists')
+                .from('project_lists')
                 .insert({
                     user_id: user.id,
                     name: name.trim(),
                     description: description.trim() || null,
                     is_active_cart: false,
-                    status: 'draft',
-                    total_estimate: getTotal()
                 })
                 .select()
                 .single()
@@ -62,7 +60,7 @@ export default function SaveProjectModal() {
             }))
 
             const { error: itemsError } = await supabase
-                .from('ele_project_list_items')
+                .from('project_list_items')
                 .insert(projectItems)
 
             if (itemsError) throw itemsError
