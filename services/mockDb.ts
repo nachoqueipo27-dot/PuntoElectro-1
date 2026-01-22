@@ -20,7 +20,29 @@ export const MockDb = {
                 .single();
 
             if (data && data.data) {
-                return data.data as SiteConfig;
+                const defaults = ConfigDAO.getConfig();
+                const fetched = data.data as any; // Cast to access properties flexibly
+
+                // Deep merge or specific field fallback to ensure safety
+                return {
+                    ...defaults,
+                    ...fetched,
+                    // Ensure arrays are never null/undefined even if DB has them as null
+                    banners: fetched.banners || defaults.banners || [],
+                    branches: fetched.branches || defaults.branches || [],
+                    features: fetched.features || defaults.features || [],
+                    checkout: {
+                        ...defaults.checkout,
+                        ...(fetched.checkout || {}),
+                        fields: fetched.checkout?.fields || defaults.checkout?.fields || [],
+                        paymentMethods: fetched.checkout?.paymentMethods || defaults.checkout?.paymentMethods || []
+                    },
+                    hero: { ...defaults.hero, ...(fetched.hero || {}) },
+                    categoriesSection: { ...defaults.categoriesSection, ...(fetched.categoriesSection || {}) },
+                    promoBanner: { ...defaults.promoBanner, ...(fetched.promoBanner || {}) },
+                    contact: { ...defaults.contact, ...(fetched.contact || {}) },
+                    footer: { ...defaults.footer, ...(fetched.footer || {}) }
+                } as SiteConfig;
             }
 
             // If no config exists in DB, try to seed it with local default

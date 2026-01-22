@@ -221,7 +221,7 @@ const CheckoutPage: React.FC<{
     const [formValues, setFormValues] = useState<Record<string, string>>({});
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [deliveryMethod, setDeliveryMethod] = useState<'shipping' | 'pickup'>('shipping');
-    const defaultMethod = config.checkout.paymentMethods.find(p => p.active)?.id || '';
+    const defaultMethod = (config.checkout?.paymentMethods || []).find(p => p.active)?.id || '';
     const [paymentMethod, setPaymentMethod] = useState<string>(defaultMethod);
     const [currentUser, setCurrentUser] = useState<User | null>(null);
 
@@ -485,7 +485,7 @@ const CheckoutPage: React.FC<{
                                         </div>
                                     )}
 
-                                    {config.checkout.fields.filter(f => f.id !== 'address').map(field => (
+                                    {(config.checkout?.fields || []).filter(f => f.id !== 'address').map(field => (
                                         <div key={field.id}>
                                             <label className="block text-xs font-bold uppercase tracking-wide mb-2 opacity-60">{field.label} {field.required ? '*' : '(Opcional)'}</label>
                                             {field.type === 'textarea' ? (
@@ -508,7 +508,7 @@ const CheckoutPage: React.FC<{
                             </div>
                             <div className="p-6">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                    {config.checkout.paymentMethods.filter(m => m.active).map(method => (
+                                    {(config.checkout?.paymentMethods || []).filter(m => m.active).map(method => (
                                         <button
                                             key={method.id}
                                             type="button"
@@ -1146,7 +1146,7 @@ export default function App() {
                         <div className="relative overflow-hidden bg-slate-900">
                             {/* Solid Background with subtle gradient */}
                             <div className="relative h-[500px] md:h-[600px] w-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-                                {config.banners.map((banner, index) => (
+                                {(config.banners || []).map((banner, index) => (
                                     <div key={banner.id} className="absolute inset-0 w-full h-full">
                                         {/* Decorative image on right side */}
                                         <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 h-[80%] hidden lg:block">
@@ -1467,7 +1467,7 @@ export default function App() {
                         <h2 className="text-3xl font-bold text-center mb-12">Nuestras Sucursales</h2>
                         {/* Centered Flex Container */}
                         <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
-                            {config.branches.map((branch) => {
+                            {(config.branches || []).map((branch) => {
                                 // Auto Generate Map URL if missing
                                 const mapSrc = branch.embedUrl
                                     ? branch.embedUrl

@@ -126,7 +126,7 @@ export const Header: React.FC<HeaderProps> = memo(({
     const searchResults = useMemo(() => {
         if (searchTerm.trim() === '') return [];
         const term = searchTerm.toLowerCase();
-        return products.filter(product =>
+        return (products || []).filter(product =>
             product.name.toLowerCase().includes(term) ||
             product.category.toLowerCase().includes(term) ||
             product.brand?.toLowerCase().includes(term)
@@ -335,7 +335,7 @@ export const Header: React.FC<HeaderProps> = memo(({
                                                 </div>
                                                 <div className="space-y-1">
                                                     {categories.map(cat => {
-                                                        const catBrands = brands.filter(b => b.category === cat.name);
+                                                        const catBrands = (brands || []).filter(b => b.category === cat.name);
                                                         const hasSubMenu = catBrands.length > 0;
 
                                                         return (
@@ -621,7 +621,7 @@ export const Sidebar: React.FC<{
                                                     Ver Todo
                                                 </button>
                                                 {categories.map(cat => {
-                                                    const catBrands = brands.filter(b => b.category === cat.name);
+                                                    const catBrands = (brands || []).filter(b => b.category === cat.name);
                                                     const hasSubMenu = catBrands.length > 0;
                                                     const isCatExpanded = expandedCategory === cat.id;
 

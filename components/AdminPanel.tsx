@@ -382,7 +382,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout, onGoHome, onDa
     const addPaymentMethod = () => {
         if (!config) return;
         const newMethod: PaymentMethod = {
-            id: `pay-${Date.now()}`,
+            id: crypto.randomUUID(),
             label: 'Nuevo Método',
             subLabel: 'Descripción',
             icon: 'CreditCard',
@@ -564,48 +564,62 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout, onGoHome, onDa
     if (!config) return <div className="min-h-screen flex items-center justify-center bg-slate-900 text-white">Cargando panel...</div>;
 
     return (
-        <div className={`min-h-screen flex flex-col md:flex-row ${isDarkMode ? 'bg-slate-900 text-white' : 'bg-slate-50 text-slate-900'}`}>
+        <div className={`min-h-screen flex flex-col md:flex-row ${isDarkMode ? 'bg-slate-950 text-white' : 'bg-slate-100 text-slate-900'}`}>
             <aside className={`
-                fixed inset-y-0 left-0 z-50 w-[280px] border-r shadow-2xl md:shadow-none transform transition-transform duration-300 flex flex-col
+                fixed inset-y-0 left-0 z-50 w-[260px] border-r transform transition-transform duration-300 flex flex-col
                 md:translate-x-0 md:static md:h-screen md:sticky md:top-0
                 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
                 ${isDarkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}
             `}>
-                <div className="p-6 flex justify-between items-center flex-shrink-0">
-                    <h2 className="text-2xl font-bold flex items-center gap-2">
-                        <Package className="text-blue-600" /> Panel Admin
+                <div className={`p-5 flex justify-between items-center flex-shrink-0 border-b ${isDarkMode ? 'border-slate-800' : 'border-slate-100'}`}>
+                    <h2 className="text-lg font-semibold flex items-center gap-2">
+                        <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                            <Package className="text-white" size={18} />
+                        </div>
+                        <span>Admin</span>
                     </h2>
-                    <button onClick={() => setIsMobileMenuOpen(false)} className="md:hidden p-2 rounded-full hover:bg-slate-800/20 text-slate-500"><X /></button>
+                    <button onClick={() => setIsMobileMenuOpen(false)} className="md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500"><X size={18} /></button>
                 </div>
-                <nav className="p-4 space-y-1 overflow-y-auto flex-1 custom-scrollbar">
+                <nav className="p-3 space-y-0.5 overflow-y-auto flex-1 custom-scrollbar">
                     {[
                         { id: 'products', label: 'Productos', icon: Package },
                         { id: 'categories', label: 'Categorías', icon: List },
                         { id: 'brands', label: 'Marcas', icon: Tag },
                         { id: 'services', label: 'Servicios', icon: Zap },
-                        { id: 'banners', label: 'Banners (Slides)', icon: ImageIcon },
+                        { id: 'banners', label: 'Banners', icon: ImageIcon },
                         { id: 'branches', label: 'Sucursales', icon: MapPin },
                         { id: 'discounts', label: 'Descuentos', icon: PercentIcon },
                         { id: 'orders', label: 'Pedidos', icon: ClipboardList },
-                        { id: 'checkout', label: 'Editor Checkout', icon: CreditCard },
+                        { id: 'checkout', label: 'Checkout', icon: CreditCard },
                         { id: 'config', label: 'Configuración', icon: Settings },
-                        { id: 'branding', label: 'Branding / Assets', icon: PenTool },
+                        { id: 'branding', label: 'Branding', icon: PenTool },
                     ].map(item => (
-                        <button key={item.id} onClick={() => handleNavClick(item.id)} className={`w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 transition ${activeTab === item.id ? 'bg-blue-600 text-white shadow-lg' : isDarkMode ? 'text-slate-400 hover:bg-slate-800' : 'text-slate-600 hover:bg-slate-100'}`}>
-                            <item.icon size={20} /> {item.label}
+                        <button
+                            key={item.id}
+                            onClick={() => handleNavClick(item.id)}
+                            className={`w-full text-left px-3 py-2.5 rounded-lg flex items-center gap-3 text-sm font-medium transition-all duration-150 ${activeTab === item.id
+                                ? isDarkMode
+                                    ? 'bg-slate-800 text-white shadow-sm'
+                                    : 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200'
+                                : isDarkMode
+                                    ? 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                                }`}
+                        >
+                            <item.icon size={18} className={activeTab === item.id ? 'text-blue-500' : ''} /> {item.label}
                         </button>
                     ))}
                 </nav>
-                <div className="p-4 border-t border-slate-800 mt-auto flex-shrink-0">
-                    <button onClick={() => setIsDarkMode(!isDarkMode)} className="w-full text-left px-4 py-2 rounded-lg flex items-center gap-2 mb-2 hover:bg-slate-800 transition">
-                        {isDarkMode ? <Sun size={16} /> : <Moon size={16} />} {isDarkMode ? 'Modo Claro' : 'Modo Oscuro'}
+                <div className={`p-3 border-t mt-auto flex-shrink-0 space-y-1 ${isDarkMode ? 'border-slate-800' : 'border-slate-100'}`}>
+                    <button onClick={() => setIsDarkMode(!isDarkMode)} className={`w-full text-left px-3 py-2 rounded-lg flex items-center gap-2 text-sm transition ${isDarkMode ? 'text-slate-400 hover:bg-slate-800' : 'text-slate-600 hover:bg-slate-50'}`}>
+                        {isDarkMode ? <Sun size={16} /> : <Moon size={16} />} {isDarkMode ? 'Claro' : 'Oscuro'}
                     </button>
-                    <button onClick={onGoHome} className="w-full text-left px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-slate-800 transition"><ArrowLeft size={16} /> Volver</button>
-                    <button onClick={onLogout} className="w-full text-left px-4 py-2 rounded-lg flex items-center gap-2 text-red-500 hover:bg-red-900/20 transition"><LogOut size={16} /> Salir</button>
+                    <button onClick={onGoHome} className={`w-full text-left px-3 py-2 rounded-lg flex items-center gap-2 text-sm transition ${isDarkMode ? 'text-slate-400 hover:bg-slate-800' : 'text-slate-600 hover:bg-slate-50'}`}><ArrowLeft size={16} /> Volver</button>
+                    <button onClick={onLogout} className="w-full text-left px-3 py-2 rounded-lg flex items-center gap-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition"><LogOut size={16} /> Salir</button>
                 </div>
             </aside>
 
-            <main ref={mainRef} className={`flex-1 p-4 md:p-8 overflow-y-auto h-[calc(100vh-65px)] md:h-screen custom-scrollbar ${isDarkMode ? 'bg-slate-900' : 'bg-slate-50'}`}>
+            <main ref={mainRef} className={`flex-1 p-6 md:p-8 overflow-y-auto h-[calc(100vh-65px)] md:h-screen custom-scrollbar ${isDarkMode ? 'bg-slate-950' : 'bg-slate-100'}`}>
 
                 {/* --- BRANDING / ASSETS TAB --- */}
                 {activeTab === 'branding' && (
@@ -665,39 +679,48 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout, onGoHome, onDa
 
                 {activeTab === 'products' && (
                     <div className="max-w-6xl mx-auto">
-                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                            <h2 className="text-2xl md:text-3xl font-bold">Productos</h2>
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+                            <div>
+                                <h2 className="text-2xl font-semibold">Productos</h2>
+                                <p className={`text-sm mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{sortedProducts.length} productos registrados</p>
+                            </div>
                             <div className="flex gap-2 w-full sm:w-auto">
-                                {selectedIds.size > 0 && <button onClick={handleBulkDelete} className="bg-red-600 text-white px-4 py-2 rounded-lg font-bold flex gap-2"><Trash2 size={20} /> Eliminar ({selectedIds.size})</button>}
-                                <button onClick={() => setEditingProduct({ id: Date.now().toString(), name: '', price: 0, category: categories[0]?.name || '', brand: '', description: '', image: '', featured: false, stock: 0 })} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold flex gap-2"><Plus size={20} /> Nuevo</button>
+                                {selectedIds.size > 0 && <button onClick={handleBulkDelete} className="bg-red-500 hover:bg-red-600 text-white px-4 py-2.5 rounded-lg font-medium text-sm flex items-center gap-2 transition"><Trash2 size={16} /> Eliminar ({selectedIds.size})</button>}
+                                <button onClick={() => setEditingProduct({ id: crypto.randomUUID(), name: '', price: 0, category: categories[0]?.name || '', brand: '', description: '', image: '', featured: false, stock: 0 })} className="bg-slate-900 hover:bg-blue-600 text-white px-4 py-2.5 rounded-lg font-medium text-sm flex items-center gap-2 transition"><Plus size={16} /> Nuevo Producto</button>
                             </div>
                         </div>
-                        <input type="text" placeholder="Buscar..." className={`w-full p-3 rounded-lg mb-4 border ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white'}`} value={productSearch} onChange={e => setProductSearch(e.target.value)} />
+                        <div className={`relative mb-4`}>
+                            <Search size={18} className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`} />
+                            <input type="text" placeholder="Buscar productos..." className={`w-full pl-10 pr-4 py-3 rounded-xl border-0 text-sm transition focus:ring-2 focus:ring-blue-500/20 ${isDarkMode ? 'bg-slate-800 text-white placeholder-slate-500' : 'bg-white text-slate-900 placeholder-slate-400 shadow-sm'}`} value={productSearch} onChange={e => setProductSearch(e.target.value)} />
+                        </div>
 
-                        <div className={`rounded-xl border overflow-hidden ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}`}>
-                            <div className="overflow-x-auto custom-scrollbar">
+                        <div className={`rounded-xl overflow-hidden ${isDarkMode ? 'bg-slate-900 ring-1 ring-slate-800' : 'bg-white ring-1 ring-slate-200 shadow-sm'}`}>
+                            <div className="overflow-x-auto">
                                 <table className="w-full text-left">
-                                    <thead className={`text-xs uppercase ${isDarkMode ? 'bg-slate-900 text-slate-400' : 'bg-slate-50 text-slate-500'}`}>
-                                        <tr>
-                                            <th className="p-4 w-10"><input type="checkbox" className="w-4 h-4 rounded" checked={sortedProducts.length > 0 && sortedProducts.every(p => selectedIds.has(p.id))} onChange={() => toggleSelectAll(sortedProducts)} /></th>
-                                            <th className="p-4">Img</th>
-                                            <th className="p-4 cursor-pointer" onClick={() => handleSort('name')}>Nombre</th>
-                                            <th className="p-4 cursor-pointer" onClick={() => handleSort('category')}>Cat</th>
-                                            <th className="p-4 cursor-pointer" onClick={() => handleSort('price')}>$</th>
-                                            <th className="p-4">Stock</th>
-                                            <th className="p-4 text-right">Acciones</th>
+                                    <thead>
+                                        <tr className={isDarkMode ? 'bg-slate-800/50' : 'bg-slate-50'}>
+                                            <th className="px-4 py-3 w-10"><input type="checkbox" className="w-4 h-4 rounded border-slate-300" checked={sortedProducts.length > 0 && sortedProducts.every(p => selectedIds.has(p.id))} onChange={() => toggleSelectAll(sortedProducts)} /></th>
+                                            <th className={`px-4 py-3 text-xs font-semibold uppercase tracking-wider ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Imagen</th>
+                                            <th className={`px-4 py-3 text-xs font-semibold uppercase tracking-wider cursor-pointer hover:text-blue-500 transition ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} onClick={() => handleSort('name')}>Nombre</th>
+                                            <th className={`px-4 py-3 text-xs font-semibold uppercase tracking-wider cursor-pointer hover:text-blue-500 transition ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} onClick={() => handleSort('category')}>Categoría</th>
+                                            <th className={`px-4 py-3 text-xs font-semibold uppercase tracking-wider cursor-pointer hover:text-blue-500 transition ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} onClick={() => handleSort('price')}>Precio</th>
+                                            <th className={`px-4 py-3 text-xs font-semibold uppercase tracking-wider ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Stock</th>
+                                            <th className={`px-4 py-3 text-xs font-semibold uppercase tracking-wider text-right ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Acciones</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody className={`divide-y ${isDarkMode ? 'divide-slate-800' : 'divide-slate-100'}`}>
                                         {sortedProducts.map(p => (
-                                            <tr key={p.id} className={isDarkMode ? 'hover:bg-slate-700/50' : 'hover:bg-blue-50/50'}>
-                                                <td className="p-4"><input type="checkbox" className="w-4 h-4 rounded" checked={selectedIds.has(p.id)} onChange={() => toggleSelection(p.id)} /></td>
-                                                <td className="p-4"><img src={p.image} className="w-10 h-10 object-contain rounded bg-white" alt="" /></td>
-                                                <td className="p-4 font-medium">{p.name}</td>
-                                                <td className="p-4 text-sm opacity-80">{p.category}</td>
-                                                <td className="p-4">${p.price.toLocaleString()}</td>
-                                                <td className={`p-4 ${p.stock < 5 ? 'text-red-500 font-bold' : ''}`}>{p.stock}</td>
-                                                <td className="p-4 text-right"><button onClick={() => setEditingProduct(p)} className="p-2 text-blue-500"><Edit size={18} /></button><button onClick={() => setDeleteTarget({ id: p.id, type: 'product', name: p.name })} className="p-2 text-red-500"><Trash2 size={18} /></button></td>
+                                            <tr key={p.id} className={`transition ${isDarkMode ? 'hover:bg-slate-800/50' : 'hover:bg-slate-50/50'}`}>
+                                                <td className="px-4 py-4"><input type="checkbox" className="w-4 h-4 rounded border-slate-300" checked={selectedIds.has(p.id)} onChange={() => toggleSelection(p.id)} /></td>
+                                                <td className="px-4 py-4"><div className="w-10 h-10 rounded-lg bg-white border border-slate-100 flex items-center justify-center overflow-hidden"><img src={p.image} className="w-full h-full object-contain" alt="" /></div></td>
+                                                <td className="px-4 py-4"><span className="font-medium">{p.name}</span></td>
+                                                <td className={`px-4 py-4 text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{p.category}</td>
+                                                <td className="px-4 py-4 font-medium">${p.price.toLocaleString()}</td>
+                                                <td className={`px-4 py-4 ${p.stock < 5 ? 'text-red-500 font-semibold' : ''}`}>{p.stock}</td>
+                                                <td className="px-4 py-4 text-right">
+                                                    <button onClick={() => setEditingProduct(p)} className={`p-2 rounded-lg transition ${isDarkMode ? 'hover:bg-slate-700 text-slate-400 hover:text-white' : 'hover:bg-slate-100 text-slate-400 hover:text-slate-700'}`}><Edit size={16} /></button>
+                                                    <button onClick={() => setDeleteTarget({ id: p.id, type: 'product', name: p.name })} className={`p-2 rounded-lg transition ${isDarkMode ? 'hover:bg-red-900/30 text-slate-400 hover:text-red-400' : 'hover:bg-red-50 text-slate-400 hover:text-red-500'}`}><Trash2 size={16} /></button>
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -711,7 +734,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout, onGoHome, onDa
                     <div className="max-w-4xl mx-auto">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-3xl font-bold">Categorías</h2>
-                            <button onClick={() => setEditingCategory({ id: Date.now().toString(), name: '', image: '' })} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold flex gap-2"><Plus size={20} /> Nueva</button>
+                            <button onClick={() => setEditingCategory({ id: crypto.randomUUID(), name: '', image: '' })} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold flex gap-2"><Plus size={20} /> Nueva</button>
                         </div>
                         <input type="text" placeholder="Buscar categoría..." className={`w-full p-3 rounded-lg mb-4 border ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white'}`} value={categorySearch} onChange={e => setCategorySearch(e.target.value)} />
 
@@ -737,7 +760,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout, onGoHome, onDa
                     <div className="max-w-4xl mx-auto">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-3xl font-bold">Marcas</h2>
-                            <button onClick={() => setEditingBrand({ id: Date.now().toString(), name: '', category: categories[0]?.name || '' })} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold flex gap-2"><Plus size={20} /> Nueva</button>
+                            <button onClick={() => setEditingBrand({ id: crypto.randomUUID(), name: '', category: categories[0]?.name || '' })} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold flex gap-2"><Plus size={20} /> Nueva</button>
                         </div>
 
                         <div className={`rounded-xl border overflow-hidden ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}`}>
@@ -773,7 +796,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout, onGoHome, onDa
                                 <h2 className="text-3xl font-bold">Servicios</h2>
                                 <p className="text-sm opacity-60">Gestiona los servicios visibles en la página web.</p>
                             </div>
-                            <button onClick={() => setEditingService({ id: Date.now().toString(), title: '', description: '', icon: 'Zap' })} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold flex gap-2"><Plus size={20} /> Nuevo Servicio</button>
+                            <button onClick={() => setEditingService({ id: crypto.randomUUID(), title: '', description: '', icon: 'Zap' })} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold flex gap-2"><Plus size={20} /> Nuevo Servicio</button>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {services.map(s => (
@@ -800,7 +823,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout, onGoHome, onDa
                     <div className="max-w-4xl mx-auto">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-3xl font-bold">Banners (Carrusel)</h2>
-                            <button onClick={() => setEditingBanner({ id: Date.now().toString(), image: '', title: '', subtitle: '', ctaText: 'Ver Más', ctaLink: '#/shop' })} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold flex gap-2"><Plus size={20} /> Nuevo</button>
+                            <button onClick={() => setEditingBanner({ id: crypto.randomUUID(), image: '', title: '', subtitle: '', ctaText: 'Ver Más', ctaLink: '#/shop' })} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold flex gap-2"><Plus size={20} /> Nuevo</button>
                         </div>
                         <div className="space-y-6">
                             {config.banners.map((b, index) => (
@@ -888,7 +911,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout, onGoHome, onDa
                     <div className="max-w-6xl mx-auto">
                         <div className="flex justify-between mb-6">
                             <h2 className="text-3xl font-bold">Pedidos</h2>
-                            <button onClick={() => setEditingOrder({ id: `PED-${Date.now()}`, customerName: '', customerPhone: '', customerEmail: '', items: [], total: 0, status: 'pending', date: new Date().toLocaleDateString(), deliveryMethod: 'pickup', paymentMethod: 'Efectivo' })} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold flex gap-2"><Plus size={20} /> Nuevo</button>
+                            <button onClick={() => setEditingOrder({ id: crypto.randomUUID(), customerName: '', customerPhone: '', customerEmail: '', items: [], total: 0, status: 'pending', date: new Date().toLocaleDateString(), deliveryMethod: 'pickup', paymentMethod: 'Efectivo' })} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold flex gap-2"><Plus size={20} /> Nuevo</button>
                         </div>
                         <input type="text" placeholder="Buscar pedido..." className={`w-full p-3 rounded-lg mb-4 border ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white'}`} value={orderSearch} onChange={e => setOrderSearch(e.target.value)} />
                         <div className={`rounded-xl border overflow-hidden ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}`}>
@@ -1158,7 +1181,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout, onGoHome, onDa
                     <div className="max-w-4xl mx-auto">
                         <div className="flex justify-between mb-6">
                             <h2 className="text-3xl font-bold">Sucursales</h2>
-                            <button onClick={() => setEditingBranch({ id: Date.now().toString(), name: '', address: '', phone: '', mapUrl: '', embedUrl: '' })} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold flex gap-2"><Plus size={20} /> Nueva</button>
+                            <button onClick={() => setEditingBranch({ id: crypto.randomUUID(), name: '', address: '', phone: '', mapUrl: '', embedUrl: '' })} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold flex gap-2"><Plus size={20} /> Nueva</button>
                         </div>
                         <div className="space-y-4">
                             {config.branches.map(b => (
