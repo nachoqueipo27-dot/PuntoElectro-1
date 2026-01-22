@@ -8,14 +8,7 @@ export default defineConfig({
   // 'base: ./' es CRÍTICO para Hostinger si subes la app a una subcarpeta
   base: './',
   server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8080',
-        changeOrigin: true,
-        secure: false,
-        // Optional: rewrite is not needed if backend expects /api
-      }
-    }
+    // No proxy needed - using Supabase directly
   },
   build: {
     outDir: 'dist',

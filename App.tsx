@@ -6,6 +6,7 @@ import { MockDb } from './services/mockDb';
 import { AuthService } from './services/authService';
 import { Header, Footer, Sidebar, CartDrawer, LegalModal } from './components/Layout';
 import { AdminPanel } from './components/AdminPanel';
+import { ContactPage } from './pages/ContactPage';
 
 // Helper for UI Icons - Updated with Smartphone/Devices
 const IconRenderer = ({ name, size = 24 }: { name: string, size?: number }) => {
@@ -1022,7 +1023,8 @@ export default function App() {
     }, [products, selectedCategory, selectedBrand, shopSearchTerm]);
 
     // Derived States
-    const isAdmin = userEmail === 'nacho@admin.com';
+    const adminEmails = ['nacho@admin.com', 'nachoqueipo27@gmail.com'];
+    const isAdmin = userEmail ? adminEmails.includes(userEmail) : false;
     const hasActivePromo = promoTimeLeft > 0 && !!userEmail;
 
     // Render Loading
@@ -1045,6 +1047,15 @@ export default function App() {
             userName={userName}
             promoTimeLeft={promoTimeLeft}
             isDarkMode={isDarkMode}
+        />;
+    }
+
+    // Render Contact Page
+    if (activePage === 'contact') {
+        return <ContactPage
+            config={config}
+            isDarkMode={isDarkMode}
+            onNavigate={setActivePage}
         />;
     }
 

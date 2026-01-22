@@ -4,18 +4,21 @@ import { MockDb } from './mockDb';
 
 // --- AUTH SERVICE ---
 export const AuthService = {
-    
+
     // 1. LOGIN
     login: async (email: string, password: string): Promise<AuthResponse> => {
+        const normalizedEmail = email.toLowerCase().trim();
+        const adminEmails = ['nacho@admin.com', 'nachoqueipo27@gmail.com'];
+
         // Hardcoded Admin Check (Safety net)
-        if (email === 'nacho@admin.com' && password === 'admin123') {
+        if (adminEmails.includes(normalizedEmail) && password === 'admin123') {
             return {
                 success: true,
                 message: 'Bienvenido Administrador',
                 user: {
                     id: 'admin',
                     name: 'Administrador',
-                    email: 'nacho@admin.com',
+                    email: normalizedEmail, // Use the actual email they logged in with
                     phone: '',
                     role: 'admin'
                 }
@@ -23,16 +26,28 @@ export const AuthService = {
         }
 
         try {
-            const user = await MockDb.findUserByEmail(email.toLowerCase().trim());
-            
+            const user = await MockDb.findUserByEmail(normalizedEmail);
+
             if (user && user.password === password) {
+                // Force admin role if email is in admin list
+                if (adminEmails.includes(normalizedEmail)) {
+                    return {
+                        success: true,
+                        message: 'Bienvenido Administrador',
+                        user: {
+                            ...user,
+                            role: 'admin'
+                        }
+                    };
+                }
+
                 return {
                     success: true,
                     message: 'Login exitoso',
                     user
                 };
             }
-            
+
             return { success: false, message: 'Credenciales inválidas' };
         } catch (error) {
             console.error("Login Error:", error);
@@ -44,9 +59,9 @@ export const AuthService = {
     register: async (name: string, email: string, phone: string, password: string): Promise<AuthResponse> => {
         try {
             const normalizedEmail = email.toLowerCase().trim();
-            
+
             const existing = await MockDb.findUserByEmail(normalizedEmail);
-            
+
             if (existing && existing.id) {
                 return { success: false, message: 'El email ya está registrado.' };
             }
@@ -56,12 +71,12 @@ export const AuthService = {
                 name,
                 email: normalizedEmail,
                 phone,
-                password, 
+                password,
                 role: 'user'
             };
 
             await MockDb.addUser(newUser);
-            
+
             return { success: true, message: 'Usuario creado correctamente.' };
         } catch (error) {
             console.error(error);

@@ -78,7 +78,8 @@ export const Header: React.FC<HeaderProps> = memo(({
     const searchRef = useRef<HTMLDivElement>(null);
     const mobileSearchRef = useRef<HTMLInputElement>(null);
 
-    const isAdmin = userEmail === 'nacho@admin.com';
+    const adminEmails = ['nacho@admin.com', 'nachoqueipo27@gmail.com'];
+    const isAdmin = userEmail ? adminEmails.includes(userEmail) : false;
     const isLoginPage = activePage === 'login';
 
     // Display Name Logic
@@ -543,7 +544,8 @@ export const Sidebar: React.FC<{
     const [expandedMenu, setExpandedMenu] = useState<string | null>(null);
     const [expandedCategory, setExpandedCategory] = useState<string | null>(null); // For nested brands in mobile
 
-    const isAdmin = userEmail === 'nacho@admin.com';
+    const adminEmails = ['nacho@admin.com', 'nachoqueipo27@gmail.com'];
+    const isAdmin = userEmail ? adminEmails.includes(userEmail) : false;
     const displayName = isAdmin ? 'PuntoElectro' : (userName || userEmail?.split('@')[0]);
 
     // Prevent body scroll when menu is open
@@ -922,7 +924,7 @@ export const Footer: React.FC<{
     const facebookLink = config.contact.facebook || 'https://facebook.com';
 
     return (
-        <footer className="bg-slate-900 text-white pt-16 pb-8 border-t border-slate-800">
+        <footer className="bg-[#0F172A] text-white pt-16 pb-8 border-t border-slate-800">
             <div className="container mx-auto px-4">
                 <div className="grid md:grid-cols-4 gap-12 mb-12">
                     <div className="space-y-6">
