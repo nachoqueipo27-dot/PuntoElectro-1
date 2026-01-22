@@ -1,20 +1,235 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Punto Electro - Tu distribuidor de materiales eléctricos. Iluminación LED, cables, herramientas y más. Envíos a todo el país." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
     
-    <!-- Google Fonts: Cardo & Didact Gothic -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Didact+Gothic&display=swap" rel="stylesheet">
+    <!-- SEO PRINCIPAL -->
+    <title>Punto Electro | Materiales eléctricos y servicios</title>
+    <meta name="description" content="Tu tienda de confianza en materiales eléctricos. Envíos a todo el país, cuotas sin interés y asesoramiento profesional para hogar e industria.">
+    <meta name="keywords" content="materiales electricos, iluminacion, cables, herramientas, ferreteria, punto electro">
+    <meta name="author" content="Punto Electro">
+    <meta name="theme-color" content="#006CFF">
     
-    <title>Punto Electro | Materiales Eléctricos</title>
-  </head>
+    <!-- FAVICONS & ICONS (Cache Busted ?v=3) -->
+    <!-- 1. Favicon clásico para navegadores (32x32) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=3">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=3">
+    
+    <!-- 2. Favicon para Android y Chrome -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- 3. Icono para iPhone/iPad (iOS) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=3">
+    
+    <!-- 4. Fallback legacy -->
+    <link rel="shortcut icon" href="/favicon.ico?v=3">
+
+    <!-- GOOGLE / SEARCH ENGINE TAGS -->
+    <meta itemprop="name" content="Punto Electro | Materiales eléctricos y servicios">
+    <meta itemprop="description" content="Encontrá todo para tu instalación eléctrica. Precios mayoristas, envíos rápidos y garantía oficial.">
+    <meta itemprop="image" content="https://puntoelectro.store/og-image.png?v=3">
+
+    <!-- OPEN GRAPH (Para WhatsApp, Facebook, LinkedIn) -->
+    <!-- IMPORTANTE: Las URLs de imagen deben ser ABSOLUTAS (https://...) para WhatsApp -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Punto Electro" />
+    <meta property="og:url" content="https://puntoelectro.store/" />
+    <meta property="og:title" content="Punto Electro | Materiales eléctricos y servicios" />
+    <meta property="og:description" content="Encontrá todo para tu instalación eléctrica. Precios mayoristas, envíos rápidos y garantía oficial." />
+    <meta property="og:image" content="https://puntoelectro.store/og-image.png?v=3" />
+    <meta property="og:image:secure_url" content="https://puntoelectro.store/og-image.png?v=3" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Logo de Punto Electro - Materiales Eléctricos" />
+    <meta property="og:locale" content="es_AR" />
+
+    <!-- TWITTER CARDS -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Punto Electro | Materiales eléctricos y servicios" />
+    <meta name="twitter:description" content="Encontrá todo para tu instalación eléctrica. Envíos a todo el país." />
+    <meta name="twitter:image" content="https://puntoelectro.store/og-image.png?v=3" />
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      body { font-family: 'Inter', sans-serif; }
+      /* Custom scrollbar for modern feel */
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: #f1f1f1; }
+      ::-webkit-scrollbar-thumb { background: #0f172a; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #1e293b; }
+
+      /* OPTIMIZED Flying Image Animation */
+      .flying-img {
+        position: fixed;
+        z-index: 100;
+        pointer-events: none;
+        border-radius: 50%;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        object-fit: cover;
+        opacity: 0.9;
+        /* Performance: Use transform for movement */
+        will-change: transform, opacity;
+        transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.6s ease-in;
+      }
+
+      /* Electrical Theme Animations & Utilities */
+      .bg-grid-pattern {
+        background-image: radial-gradient(#3b82f6 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+      
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .animate-fadeInUp {
+        animation: fadeInUp 0.4s ease-out forwards;
+      }
+
+      @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-5px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .animate-slideDown {
+        animation: slideDown 0.2s ease-out;
+      }
+
+      @keyframes scaleIn {
+        from { opacity: 0; transform: scale(0.98); }
+        to { opacity: 1; transform: scale(1); }
+      }
+
+      .animate-scaleIn {
+        animation: scaleIn 0.2s ease-out forwards;
+      }
+
+      /* Commercial Shimmer Effect - Optimized */
+      @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+      }
+      
+      .animate-shimmer {
+        position: relative;
+        overflow: hidden;
+      }
+      .animate-shimmer::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transform: translateX(-100%);
+        animation: shimmer 2s infinite;
+      }
+
+      /* Infinite Horizontal Scroll (Marquee) */
+      @keyframes scroll-left {
+        0% { transform: translate3d(0, 0, 0); }
+        100% { transform: translate3d(-50%, 0, 0); }
+      }
+
+      .animate-scroll-left {
+        display: flex;
+        width: max-content;
+        /* Force GPU acceleration */
+        will-change: transform;
+        backface-visibility: hidden; 
+        animation: scroll-left 40s linear infinite;
+      }
+
+      .animate-scroll-left:hover {
+        animation-play-state: paused;
+      }
+
+      /* Hide scrollbar for category pills */
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      /* SUCCESS ANIMATION CHECKMARK */
+      .checkmark__circle {
+        stroke-dasharray: 166;
+        stroke-dashoffset: 166;
+        stroke-width: 2;
+        stroke-miterlimit: 10;
+        stroke: #4bb71b;
+        fill: none;
+        animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+      }
+
+      .checkmark {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: block;
+        stroke-width: 2;
+        stroke: #fff;
+        stroke-miterlimit: 10;
+        margin: 10% auto;
+        box-shadow: inset 0px 0px 0px #4bb71b;
+        animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+      }
+
+      .checkmark__check {
+        transform-origin: 50% 50%;
+        stroke-dasharray: 48;
+        stroke-dashoffset: 48;
+        animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+      }
+
+      @keyframes stroke {
+        100% {
+          stroke-dashoffset: 0;
+        }
+      }
+      @keyframes scale {
+        0%, 100% {
+          transform: none;
+        }
+        50% {
+          transform: scale3d(1.1, 1.1, 1);
+        }
+      }
+      @keyframes fill {
+        100% {
+          box-shadow: inset 0px 0px 0px 50px #4bb71b;
+        }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "react-markdown": "https://aistudiocdn.com/react-markdown@^10.1.0",
+    "vite": "https://aistudiocdn.com/vite@^7.2.4",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1",
+    "@supabase/supabase-js": "https://aistudiocdn.com/@supabase/supabase-js@^2.45.4"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>

@@ -1,0 +1,8 @@
+{
+  "name": "Punto Electro",
+  "description": "A modern ecommerce for electrical supplies with Admin panel and Gemini AI features.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

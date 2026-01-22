@@ -1,0 +1,22 @@
+{
+  "short_name": "Punto Electro",
+  "name": "Punto Electro | Materiales Eléctricos",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#006CFF",
+  "background_color": "#ffffff",
+  "categories": ["shopping", "business", "utilities"],
+  "orientation": "portrait"
+}
