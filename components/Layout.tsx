@@ -16,8 +16,8 @@ const NAV_ITEMS = [
 // --- BRAND ASSET COMPONENT ---
 export const PuntoLogo: React.FC<{ size?: number, className?: string }> = ({ size = 32, className }) => (
     <svg width={size} height={size} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-        <circle cx="50" cy="50" r="50" fill="#006CFF"/>
-        <path d="M58 20L28 56H48L40 82L74 42H52Z" fill="white"/>
+        <circle cx="50" cy="50" r="50" fill="#006CFF" />
+        <path d="M58 20L28 56H48L40 82L74 42H52Z" fill="white" />
     </svg>
 );
 
@@ -43,19 +43,19 @@ interface HeaderProps {
     onSearchSubmit: (term: string) => void; // Added for global search
 }
 
-export const Header: React.FC<HeaderProps> = memo(({ 
-    cartCount, 
-    onCartClick, 
-    onMenuClick, 
-    onMobileMenuClick, 
+export const Header: React.FC<HeaderProps> = memo(({
+    cartCount,
+    onCartClick,
+    onMenuClick,
+    onMobileMenuClick,
     userEmail,
-    userName, 
-    onLogout, 
-    config, 
-    activePage, 
-    products, 
+    userName,
+    onLogout,
+    config,
+    activePage,
+    products,
     onProductClick,
-    categories, 
+    categories,
     onCategorySelect,
     onBrandSelect,
     brands,
@@ -68,7 +68,7 @@ export const Header: React.FC<HeaderProps> = memo(({
     const [showResults, setShowResults] = useState(false);
     const [animateCart, setAnimateCart] = useState(false);
     const [showMobileSearch, setShowMobileSearch] = useState(false);
-    
+
     // Scroll Hide Logic State
     const [isVisible, setIsVisible] = useState(true);
     const lastScrollY = useRef(0);
@@ -90,7 +90,7 @@ export const Header: React.FC<HeaderProps> = memo(({
             if (!ticking.current) {
                 window.requestAnimationFrame(() => {
                     const currentScrollY = window.scrollY;
-                    
+
                     if (currentScrollY < 10) {
                         setIsVisible(true);
                     } else if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
@@ -99,7 +99,7 @@ export const Header: React.FC<HeaderProps> = memo(({
                     } else {
                         setIsVisible(true);
                     }
-                    
+
                     lastScrollY.current = currentScrollY;
                     ticking.current = false;
                 });
@@ -125,8 +125,8 @@ export const Header: React.FC<HeaderProps> = memo(({
     const searchResults = useMemo(() => {
         if (searchTerm.trim() === '') return [];
         const term = searchTerm.toLowerCase();
-        return products.filter(product => 
-            product.name.toLowerCase().includes(term) || 
+        return products.filter(product =>
+            product.name.toLowerCase().includes(term) ||
             product.category.toLowerCase().includes(term) ||
             product.brand?.toLowerCase().includes(term)
         ).slice(0, 5); // Limit results for dropdown preview
@@ -137,7 +137,7 @@ export const Header: React.FC<HeaderProps> = memo(({
         if (searchTerm && searchResults.length > 0) {
             setShowResults(true);
         } else if (searchTerm && searchResults.length === 0) {
-             setShowResults(true); // Show "No results" message
+            setShowResults(true); // Show "No results" message
         } else {
             setShowResults(false);
         }
@@ -186,9 +186,9 @@ export const Header: React.FC<HeaderProps> = memo(({
     };
 
     return (
-        <header 
-            className={`fixed left-0 right-0 z-40 shadow-sm transition-all duration-300 ease-in-out will-change-transform ${isDarkMode ? 'bg-slate-900 border-b border-slate-800 text-white' : 'bg-white text-slate-900'} ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
-            style={{ 
+        <header
+            className={`fixed left-0 right-0 z-40 transition-all duration-300 ease-in-out will-change-transform bg-white/95 backdrop-blur-md border-b border-slate-200 text-slate-900 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
+            style={{
                 top: hasActivePromo ? '40px' : '0px'
             }}
         >
@@ -198,15 +198,15 @@ export const Header: React.FC<HeaderProps> = memo(({
                     {/* Logo & Mobile Trigger */}
                     <div className="flex items-center gap-3 lg:gap-4 flex-shrink-0">
                         {!isLoginPage && (
-                            <button 
+                            <button
                                 onClick={onMobileMenuClick}
                                 className={`p-2 -ml-2 rounded-xl transition lg:hidden ${isDarkMode ? 'text-slate-300 hover:bg-slate-800' : 'text-slate-600 hover:bg-slate-100'}`}
                             >
                                 <Menu size={24} />
                             </button>
                         )}
-                        <div 
-                            className="flex items-center gap-2 cursor-pointer group" 
+                        <div
+                            className="flex items-center gap-2 cursor-pointer group"
                             onClick={() => onMenuClick('home')}
                         >
                             <div className="transition-transform group-hover:scale-105 shadow-lg shadow-blue-600/20 rounded-full">
@@ -223,20 +223,20 @@ export const Header: React.FC<HeaderProps> = memo(({
                     {!isLoginPage && (
                         <div className="hidden lg:block flex-1 max-w-4xl px-4" ref={searchRef}>
                             <div className="relative group">
-                                <input 
-                                    type="text" 
-                                    placeholder="Buscar productos, marcas o categorías..." 
-                                    className={`w-full pl-14 pr-6 py-4 border-2 rounded-2xl text-lg focus:outline-none focus:ring-4 transition-all duration-300 font-medium ${isDarkMode 
-                                        ? 'bg-slate-800 border-slate-700 text-white focus:border-blue-500 focus:bg-slate-800 focus:ring-blue-500/20 placeholder:text-slate-500' 
+                                <input
+                                    type="text"
+                                    placeholder="Buscar productos, marcas o categorías..."
+                                    className={`w-full pl-14 pr-6 py-4 border-2 rounded-2xl text-lg focus:outline-none focus:ring-4 transition-all duration-300 font-medium ${isDarkMode
+                                        ? 'bg-slate-800 border-slate-700 text-white focus:border-blue-500 focus:bg-slate-800 focus:ring-blue-500/20 placeholder:text-slate-500'
                                         : 'bg-slate-50 border-slate-100 text-slate-900 focus:border-blue-500 focus:bg-white focus:ring-blue-500/10 placeholder:text-slate-400'
-                                    }`}
+                                        }`}
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     onFocus={() => searchTerm && setShowResults(true)}
                                     onKeyDown={handleKeyDown}
                                 />
                                 <Search className={`absolute left-5 top-1/2 -translate-y-1/2 transition-colors duration-300 w-7 h-7 ${isDarkMode ? 'text-slate-500 group-focus-within:text-blue-400' : 'text-slate-400 group-focus-within:text-blue-500'}`} />
-                                
+
                                 {/* Search Results Dropdown Desktop */}
                                 {showResults && (
                                     <div className={`absolute top-full left-0 right-0 mt-2 rounded-2xl shadow-2xl border overflow-hidden z-50 animate-fadeIn max-h-[400px] overflow-y-auto custom-scrollbar ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-100'}`}>
@@ -250,13 +250,13 @@ export const Header: React.FC<HeaderProps> = memo(({
                                                     const finalPrice = hasDiscount ? product.price * (1 - product.discount! / 100) : product.price;
 
                                                     return (
-                                                        <div 
+                                                        <div
                                                             key={product.id}
                                                             onClick={() => handleProductSelect(product)}
-                                                            className={`flex items-center gap-4 p-4 cursor-pointer transition border-b last:border-none group ${isDarkMode 
-                                                                ? 'hover:bg-slate-700 border-slate-700' 
+                                                            className={`flex items-center gap-4 p-4 cursor-pointer transition border-b last:border-none group ${isDarkMode
+                                                                ? 'hover:bg-slate-700 border-slate-700'
                                                                 : 'hover:bg-blue-50 border-slate-50'
-                                                            }`}
+                                                                }`}
                                                         >
                                                             <img src={product.image} className={`w-12 h-12 object-contain rounded-lg border ${isDarkMode ? 'bg-slate-700 border-slate-600' : 'bg-white border-slate-100'}`} alt={product.name} />
                                                             <div className="flex-1">
@@ -277,7 +277,7 @@ export const Header: React.FC<HeaderProps> = memo(({
                                                         </div>
                                                     );
                                                 })}
-                                                <button 
+                                                <button
                                                     onClick={() => handleSearchSubmit()}
                                                     className={`w-full p-4 text-center text-sm font-bold transition hover:underline ${isDarkMode ? 'text-blue-400 bg-slate-900' : 'text-blue-600 bg-slate-50'}`}
                                                 >
@@ -302,13 +302,12 @@ export const Header: React.FC<HeaderProps> = memo(({
                             const isShop = item.id === 'shop';
                             return (
                                 <div key={item.id} className="relative group/nav">
-                                    <button 
+                                    <button
                                         onClick={() => onMenuClick(item.id)}
-                                        className={`px-4 py-2 rounded-full text-sm font-bold transition-all relative flex items-center gap-1 ${
-                                            activePage === item.id 
-                                            ? isDarkMode ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-900' 
-                                            : isDarkMode ? 'text-slate-400 hover:text-white hover:bg-slate-800' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                                        }`}
+                                        className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all relative flex items-center gap-1 ${activePage === item.id
+                                            ? 'bg-slate-900 text-white'
+                                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                                            }`}
                                     >
                                         {item.label}
                                         {isShop && <ChevronDown size={14} className="opacity-50 group-hover/nav:rotate-180 transition-transform duration-300" />}
@@ -322,10 +321,10 @@ export const Header: React.FC<HeaderProps> = memo(({
                                         <div className="absolute top-full left-0 pt-4 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-300 transform translate-y-2 group-hover/nav:translate-y-0 w-64 z-50">
                                             {/* Invisible bridge to prevent closing gap */}
                                             <div className="absolute top-0 left-0 w-full h-4 bg-transparent"></div>
-                                            
+
                                             <div className={`rounded-2xl shadow-xl border p-2 ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-100'}`}>
                                                 <div className="mb-2 pb-2 border-b border-slate-100 dark:border-slate-700">
-                                                     <button
+                                                    <button
                                                         onClick={() => { onCategorySelect(null); onMenuClick('shop'); }}
                                                         className={`w-full text-left px-3 py-2 rounded-xl text-sm font-bold transition flex items-center justify-between group/item ${isDarkMode ? 'text-slate-300 hover:bg-slate-700 hover:text-white' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'}`}
                                                     >
@@ -337,32 +336,32 @@ export const Header: React.FC<HeaderProps> = memo(({
                                                     {categories.map(cat => {
                                                         const catBrands = brands.filter(b => b.category === cat.name);
                                                         const hasSubMenu = catBrands.length > 0;
-                                                        
+
                                                         return (
                                                             <div key={cat.id} className="relative group/category">
                                                                 <button
-                                                                    onClick={(e) => { 
+                                                                    onClick={(e) => {
                                                                         e.stopPropagation();
-                                                                        onCategorySelect(cat.name); 
-                                                                        onMenuClick('shop'); 
+                                                                        onCategorySelect(cat.name);
+                                                                        onMenuClick('shop');
                                                                     }}
                                                                     className={`w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition flex items-center justify-between group-hover/category:bg-slate-100 dark:group-hover/category:bg-slate-700 ${isDarkMode ? 'text-slate-300 group-hover/category:text-white' : 'text-slate-500 group-hover/category:text-slate-900'}`}
                                                                 >
                                                                     <span className="truncate">{cat.name}</span>
                                                                     {hasSubMenu && <ChevronRight size={14} className="opacity-50" />}
                                                                 </button>
-                                                                
+
                                                                 {/* Side Sub-menu for Brands - Hover based with Bridge */}
                                                                 {hasSubMenu && (
                                                                     <div className="absolute left-full top-0 pl-1 opacity-0 invisible group-hover/category:opacity-100 group-hover/category:visible transition-all duration-200 w-56 z-50 -ml-1">
-                                                                         {/* Invisible Bridge to prevent closing gap when moving diagonally */}
-                                                                         <div className="absolute top-0 left-0 w-4 h-full -ml-3 bg-transparent"></div>
+                                                                        {/* Invisible Bridge to prevent closing gap when moving diagonally */}
+                                                                        <div className="absolute top-0 left-0 w-4 h-full -ml-3 bg-transparent"></div>
 
                                                                         <div className={`rounded-2xl shadow-xl border p-2 overflow-hidden ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-100'}`}>
                                                                             <button
                                                                                 onClick={(e) => {
                                                                                     e.stopPropagation();
-                                                                                    onCategorySelect(cat.name); 
+                                                                                    onCategorySelect(cat.name);
                                                                                     onMenuClick('shop');
                                                                                 }}
                                                                                 className={`w-full text-left px-3 py-2 rounded-lg text-[10px] font-bold uppercase tracking-wide transition border-b border-dashed mb-1 ${isDarkMode ? 'text-slate-500 border-slate-700 hover:text-blue-400' : 'text-slate-400 border-slate-100 hover:text-blue-600'}`}
@@ -375,14 +374,14 @@ export const Header: React.FC<HeaderProps> = memo(({
                                                                                         key={brand.id}
                                                                                         onClick={(e) => {
                                                                                             e.stopPropagation();
-                                                                                            onCategorySelect(cat.name); 
-                                                                                            onBrandSelect(brand.name); 
+                                                                                            onCategorySelect(cat.name);
+                                                                                            onBrandSelect(brand.name);
                                                                                             onMenuClick('shop');
                                                                                         }}
-                                                                                         className={`w-full text-left px-3 py-2 rounded-lg text-sm transition flex items-center justify-between group/brand ${isDarkMode ? 'text-slate-400 hover:bg-slate-700 hover:text-white' : 'text-slate-500 hover:bg-slate-50 hover:text-blue-600'}`}
+                                                                                        className={`w-full text-left px-3 py-2 rounded-lg text-sm transition flex items-center justify-between group/brand ${isDarkMode ? 'text-slate-400 hover:bg-slate-700 hover:text-white' : 'text-slate-500 hover:bg-slate-50 hover:text-blue-600'}`}
                                                                                     >
                                                                                         {brand.name}
-                                                                                        <ChevronRight size={12} className="opacity-0 group-hover/brand:opacity-50 -translate-x-1 group-hover/brand:translate-x-0 transition-all"/>
+                                                                                        <ChevronRight size={12} className="opacity-0 group-hover/brand:opacity-50 -translate-x-1 group-hover/brand:translate-x-0 transition-all" />
                                                                                     </button>
                                                                                 ))}
                                                                             </div>
@@ -403,19 +402,19 @@ export const Header: React.FC<HeaderProps> = memo(({
 
                     {/* Actions: Theme, Search (Mobile), User, Cart */}
                     <div className="flex items-center gap-2 lg:gap-3">
-                        <button 
+                        <button
                             onClick={onToggleTheme}
                             className={`p-2.5 rounded-full transition hidden lg:flex ${isDarkMode ? 'text-yellow-400 hover:bg-slate-800' : 'text-slate-400 hover:bg-slate-100 hover:text-yellow-500'}`}
                             title="Cambiar Tema"
                         >
                             {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
                         </button>
-                        
+
                         {!isLoginPage && (
-                             <button 
+                            <button
                                 onClick={() => setShowMobileSearch(!showMobileSearch)}
                                 className={`p-2.5 rounded-full transition lg:hidden ${isDarkMode ? 'text-white hover:bg-slate-800' : 'text-slate-600 hover:bg-slate-100'}`}
-                             >
+                            >
                                 <Search size={22} />
                             </button>
                         )}
@@ -431,17 +430,17 @@ export const Header: React.FC<HeaderProps> = memo(({
                                 </button>
                                 <div className="absolute top-full right-0 pt-4 opacity-0 invisible group-hover/user:opacity-100 group-hover/user:visible transition-all duration-300 transform translate-y-2 group-hover/user:translate-y-0 w-48 z-50">
                                     {/* Invisible Bridge */}
-                                     <div className="absolute top-0 right-0 h-4 w-full bg-transparent"></div>
+                                    <div className="absolute top-0 right-0 h-4 w-full bg-transparent"></div>
                                     <div className={`rounded-2xl shadow-xl border p-2 ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-100'}`}>
                                         {isAdmin && (
-                                            <button 
+                                            <button
                                                 onClick={() => onMenuClick('admin')}
                                                 className={`w-full text-left px-3 py-2 rounded-xl text-sm font-medium transition flex items-center gap-2 mb-1 ${isDarkMode ? 'text-slate-300 hover:bg-slate-700 hover:text-white' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'}`}
                                             >
                                                 <Settings size={16} /> Panel Admin
                                             </button>
                                         )}
-                                        <button 
+                                        <button
                                             onClick={onLogout}
                                             className={`w-full text-left px-3 py-2 rounded-xl text-sm font-medium transition flex items-center gap-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20`}
                                         >
@@ -451,15 +450,15 @@ export const Header: React.FC<HeaderProps> = memo(({
                                 </div>
                             </div>
                         ) : (
-                             !isLoginPage && (
+                            !isLoginPage && (
                                 <div className="hidden lg:flex items-center gap-2">
-                                    <button 
+                                    <button
                                         onClick={() => onMenuClick('login')}
                                         className={`px-3 py-2 rounded-full font-bold text-sm transition ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-800'}`}
                                     >
                                         Ingresar
                                     </button>
-                                    <button 
+                                    <button
                                         onClick={() => onMenuClick('register')}
                                         className="flex items-center gap-2 px-4 py-2.5 rounded-full font-bold text-sm bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-600/20 transition hover:scale-105 active:scale-95 whitespace-nowrap"
                                     >
@@ -467,11 +466,11 @@ export const Header: React.FC<HeaderProps> = memo(({
                                         Crear Cuenta (-10%)
                                     </button>
                                 </div>
-                             )
+                            )
                         )}
 
                         {!isLoginPage && (
-                            <button 
+                            <button
                                 onClick={onCartClick}
                                 className={`relative p-3 rounded-full transition shadow-sm group ${isDarkMode ? 'bg-slate-800 text-white hover:bg-slate-700' : 'bg-white text-slate-800 hover:bg-slate-50 border border-slate-200'}`}
                             >
@@ -489,22 +488,22 @@ export const Header: React.FC<HeaderProps> = memo(({
                 {/* Mobile Search Bar Expand */}
                 {showMobileSearch && !isLoginPage && (
                     <div className="mt-4 lg:hidden relative animate-slideDown">
-                        <input 
+                        <input
                             ref={mobileSearchRef}
-                            type="text" 
-                            placeholder="Buscar..." 
+                            type="text"
+                            placeholder="Buscar..."
                             className={`w-full pl-10 pr-4 py-3 rounded-xl outline-none border focus:ring-2 focus:ring-blue-500 ${isDarkMode ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'}`}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             onKeyDown={handleKeyDown}
                         />
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-                        
+
                         {/* Mobile Search Results */}
                         {showResults && searchResults.length > 0 && (
                             <div className={`absolute top-full left-0 right-0 mt-2 rounded-xl shadow-xl border z-50 overflow-hidden max-h-[60vh] overflow-y-auto ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-100'}`}>
                                 {searchResults.map(product => (
-                                    <div 
+                                    <div
                                         key={product.id}
                                         onClick={() => handleProductSelect(product)}
                                         className={`flex items-center gap-3 p-3 border-b last:border-none ${isDarkMode ? 'border-slate-700' : 'border-slate-50'}`}
@@ -539,7 +538,7 @@ export const Sidebar: React.FC<{
     userName: string | null; // Added
     onLogout: () => void;
 }> = ({ isOpen, onClose, onNav, activePage, isMobile, categories, onCategorySelect, onBrandSelect, brands, userEmail, userName, onLogout }) => {
-    
+
     // State to track expanded menu items (for dropdowns)
     const [expandedMenu, setExpandedMenu] = useState<string | null>(null);
     const [expandedCategory, setExpandedCategory] = useState<string | null>(null); // For nested brands in mobile
@@ -562,7 +561,7 @@ export const Sidebar: React.FC<{
     return (
         <>
             {isOpen && (
-                <div 
+                <div
                     className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] transition-opacity duration-300"
                     onClick={onClose}
                 />
@@ -577,7 +576,7 @@ export const Sidebar: React.FC<{
                         <X size={24} />
                     </button>
                 </div>
-                
+
                 <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
                     <nav className="space-y-1 mb-8">
                         {NAV_ITEMS.map((item) => {
@@ -595,21 +594,20 @@ export const Sidebar: React.FC<{
                                                 onClose();
                                             }
                                         }}
-                                        className={`w-full flex items-center justify-between p-3 rounded-xl font-bold transition ${
-                                            activePage === item.id 
-                                            ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30' 
+                                        className={`w-full flex items-center justify-between p-3 rounded-xl font-bold transition ${activePage === item.id
+                                            ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30'
                                             : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'
-                                        }`}
+                                            }`}
                                     >
                                         <div className="flex items-center gap-4">
-                                            <item.icon size={20} /> 
+                                            <item.icon size={20} />
                                             <span>{item.label}</span>
                                         </div>
                                         {isShop && (
                                             <ChevronDown size={16} className={`transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
                                         )}
                                     </button>
-                                    
+
                                     {/* Sub-categories for Shop (Collapsible) */}
                                     {isShop && (
                                         <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isExpanded ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}`}>
@@ -628,13 +626,13 @@ export const Sidebar: React.FC<{
                                                     return (
                                                         <div key={cat.id}>
                                                             <button
-                                                                onClick={() => { 
+                                                                onClick={() => {
                                                                     if (hasSubMenu) {
                                                                         setExpandedCategory(isCatExpanded ? null : cat.id);
                                                                     } else {
-                                                                        onCategorySelect(cat.name); 
-                                                                        onNav('shop'); 
-                                                                        onClose(); 
+                                                                        onCategorySelect(cat.name);
+                                                                        onNav('shop');
+                                                                        onClose();
                                                                     }
                                                                 }}
                                                                 className="w-full text-left p-2 text-sm font-medium text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 transition flex items-center justify-between"
@@ -646,28 +644,28 @@ export const Sidebar: React.FC<{
                                                             {/* Nested Brands in Sidebar */}
                                                             {hasSubMenu && (
                                                                 <div className={`overflow-hidden transition-all duration-300 ${isCatExpanded ? 'max-h-[300px]' : 'max-h-0'}`}>
-                                                                     <div className="ml-3 pl-3 border-l border-slate-200 dark:border-slate-700">
+                                                                    <div className="ml-3 pl-3 border-l border-slate-200 dark:border-slate-700">
                                                                         <button
-                                                                             onClick={() => { onCategorySelect(cat.name); onNav('shop'); onClose(); }}
-                                                                             className="w-full text-left py-2 text-xs font-bold text-slate-400 hover:text-blue-500 uppercase tracking-wide"
+                                                                            onClick={() => { onCategorySelect(cat.name); onNav('shop'); onClose(); }}
+                                                                            className="w-full text-left py-2 text-xs font-bold text-slate-400 hover:text-blue-500 uppercase tracking-wide"
                                                                         >
                                                                             Ver todos {cat.name}
                                                                         </button>
-                                                                         {catBrands.map(brand => (
-                                                                             <button
-                                                                                 key={brand.id}
-                                                                                 onClick={() => { 
-                                                                                     onCategorySelect(cat.name);
-                                                                                     onBrandSelect(brand.name);
-                                                                                     onNav('shop'); 
-                                                                                     onClose(); 
-                                                                                 }}
-                                                                                 className="w-full text-left py-2 text-xs text-slate-400 hover:text-blue-500 dark:hover:text-blue-300 transition block"
-                                                                             >
-                                                                                 {brand.name}
-                                                                             </button>
-                                                                         ))}
-                                                                     </div>
+                                                                        {catBrands.map(brand => (
+                                                                            <button
+                                                                                key={brand.id}
+                                                                                onClick={() => {
+                                                                                    onCategorySelect(cat.name);
+                                                                                    onBrandSelect(brand.name);
+                                                                                    onNav('shop');
+                                                                                    onClose();
+                                                                                }}
+                                                                                className="w-full text-left py-2 text-xs text-slate-400 hover:text-blue-500 dark:hover:text-blue-300 transition block"
+                                                                            >
+                                                                                {brand.name}
+                                                                            </button>
+                                                                        ))}
+                                                                    </div>
                                                                 </div>
                                                             )}
                                                         </div>
@@ -683,29 +681,29 @@ export const Sidebar: React.FC<{
                 </div>
 
                 <div className="p-4 border-t border-slate-100 dark:border-slate-800 shrink-0 flex flex-col gap-4">
-                     {userEmail && (
+                    {userEmail && (
                         <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl flex items-center gap-3">
-                             <div className="w-10 h-10 bg-blue-100 dark:bg-blue-800 text-blue-600 dark:text-blue-300 rounded-full flex items-center justify-center">
-                                 <User size={20} />
-                             </div>
-                             <div className="overflow-hidden flex-1">
-                                 <p className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">Hola,</p>
-                                 <p className="font-bold text-slate-800 dark:text-white truncate">{displayName}</p>
-                             </div>
-                             {isAdmin && (
-                                <button 
+                            <div className="w-10 h-10 bg-blue-100 dark:bg-blue-800 text-blue-600 dark:text-blue-300 rounded-full flex items-center justify-center">
+                                <User size={20} />
+                            </div>
+                            <div className="overflow-hidden flex-1">
+                                <p className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">Hola,</p>
+                                <p className="font-bold text-slate-800 dark:text-white truncate">{displayName}</p>
+                            </div>
+                            {isAdmin && (
+                                <button
                                     onClick={() => { onNav('admin'); onClose(); }}
                                     className="p-2 bg-white dark:bg-slate-700 rounded-lg text-slate-600 dark:text-slate-300 shadow-sm hover:text-blue-600 dark:hover:text-blue-400 transition"
                                     title="Panel Admin"
                                 >
                                     <Settings size={20} />
                                 </button>
-                             )}
+                            )}
                         </div>
                     )}
 
                     {userEmail ? (
-                        <button 
+                        <button
                             onClick={() => { onLogout(); onClose(); }}
                             className="w-full flex items-center justify-center gap-2 p-3 rounded-xl font-bold text-red-500 bg-red-50 dark:bg-red-900/10 hover:bg-red-100 dark:hover:bg-red-900/30 transition"
                         >
@@ -713,17 +711,17 @@ export const Sidebar: React.FC<{
                         </button>
                     ) : (
                         <div className="space-y-3">
-                            <button 
+                            <button
                                 onClick={() => { onNav('login'); onClose(); }}
                                 className="w-full flex items-center justify-center gap-2 p-3 rounded-xl font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
                             >
                                 Ingresar
                             </button>
-                            <button 
+                            <button
                                 onClick={() => { onNav('register'); onClose(); }}
                                 className="w-full flex items-center justify-center gap-2 p-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 transition shadow-lg"
                             >
-                                <Sparkles size={18} fill="currentColor" className="text-yellow-400"/> Crear Cuenta (-10%)
+                                <Sparkles size={18} fill="currentColor" className="text-yellow-400" /> Crear Cuenta (-10%)
                             </button>
                         </div>
                     )}
@@ -743,7 +741,7 @@ export const CartDrawer: React.FC<{
     onContinueShopping: () => void;
     config?: SiteConfig;
 }> = ({ isOpen, onClose, items, onUpdateQty, onRemoveItem, onGoToCheckout, onContinueShopping, config }) => {
-    
+
     // Default styles if config is not yet loaded
     const styles = config?.checkout?.styles || {
         headerBg: '#ffffff',
@@ -752,7 +750,7 @@ export const CartDrawer: React.FC<{
         checkoutBtnText: '#ffffff',
         fontFamily: 'Inter'
     };
-    
+
     const title = config?.checkout?.viewCartTitle || 'Mi Carrito';
 
     const subtotal = items.reduce((acc, item) => {
@@ -763,19 +761,19 @@ export const CartDrawer: React.FC<{
     return (
         <>
             {isOpen && (
-                <div 
+                <div
                     className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[60] transition-opacity"
                     onClick={onClose}
                 />
             )}
-            <div 
+            <div
                 className={`
                     fixed top-0 right-0 h-full w-full sm:w-[400px] bg-white dark:bg-slate-900 z-[70] shadow-2xl transform transition-transform duration-300 ease-out flex flex-col
                     ${isOpen ? 'translate-x-0' : 'translate-x-full'}
                 `}
                 style={{ fontFamily: styles.fontFamily }}
             >
-                <div 
+                <div
                     className="p-5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center shadow-sm relative z-10"
                     style={{ backgroundColor: styles.headerBg, color: styles.headerText }}
                 >
@@ -805,7 +803,7 @@ export const CartDrawer: React.FC<{
                                             <div>
                                                 <div className="flex justify-between items-start gap-2">
                                                     <h4 className="font-bold text-slate-800 dark:text-white text-sm line-clamp-2 leading-tight">{item.name}</h4>
-                                                    <button onClick={() => onRemoveItem(item.id)} className="text-slate-400 hover:text-red-500 transition"><Trash2 size={16}/></button>
+                                                    <button onClick={() => onRemoveItem(item.id)} className="text-slate-400 hover:text-red-500 transition"><Trash2 size={16} /></button>
                                                 </div>
                                                 <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">{item.brand}</div>
                                             </div>
@@ -821,9 +819,9 @@ export const CartDrawer: React.FC<{
                                                     )}
                                                 </div>
                                                 <div className="flex items-center bg-slate-100 dark:bg-slate-700 rounded-lg h-8">
-                                                    <button onClick={() => onUpdateQty(item.id, -1)} className="px-2.5 h-full hover:bg-slate-200 dark:hover:bg-slate-600 rounded-l-lg transition"><Minus size={14}/></button>
+                                                    <button onClick={() => onUpdateQty(item.id, -1)} className="px-2.5 h-full hover:bg-slate-200 dark:hover:bg-slate-600 rounded-l-lg transition"><Minus size={14} /></button>
                                                     <span className="w-8 text-center text-xs font-bold dark:text-white">{item.quantity}</span>
-                                                    <button onClick={() => onUpdateQty(item.id, 1)} className="px-2.5 h-full hover:bg-slate-200 dark:hover:bg-slate-600 rounded-r-lg transition"><Plus size={14}/></button>
+                                                    <button onClick={() => onUpdateQty(item.id, 1)} className="px-2.5 h-full hover:bg-slate-200 dark:hover:bg-slate-600 rounded-r-lg transition"><Plus size={14} /></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -849,7 +847,7 @@ export const CartDrawer: React.FC<{
                             <span className="text-slate-500 dark:text-slate-400 font-medium">Subtotal</span>
                             <span className="text-2xl font-black text-slate-900 dark:text-white">${subtotal.toLocaleString()}</span>
                         </div>
-                        <button 
+                        <button
                             onClick={onGoToCheckout}
                             className="w-full py-4 rounded-xl font-bold text-lg shadow-lg hover:brightness-110 active:scale-[0.98] transition flex items-center justify-center gap-2"
                             style={{ backgroundColor: styles.checkoutBtnBg, color: styles.checkoutBtnText }}
@@ -857,7 +855,7 @@ export const CartDrawer: React.FC<{
                             Iniciar Compra <ArrowRight size={20} />
                         </button>
                         <p className="text-center text-[10px] text-slate-400 mt-3 flex items-center justify-center gap-1">
-                            <Info size={12}/> Precios sujetos a confirmación
+                            <Info size={12} /> Precios sujetos a confirmación
                         </p>
                     </div>
                 )}
@@ -879,7 +877,7 @@ export const LegalModal: React.FC<{
             <div className="bg-white dark:bg-slate-900 w-full max-w-3xl rounded-3xl shadow-2xl relative z-10 flex flex-col max-h-[85vh] animate-scaleIn">
                 <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
                     <h2 className="text-2xl font-bold flex items-center gap-2 text-slate-800 dark:text-white">
-                        {type === 'terms' ? <ShieldCheck className="text-blue-500"/> : <FileText className="text-blue-500"/>}
+                        {type === 'terms' ? <ShieldCheck className="text-blue-500" /> : <FileText className="text-blue-500" />}
                         {type === 'terms' ? 'Términos y Condiciones' : 'Política de Privacidad'}
                     </h2>
                     <button onClick={onClose} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition dark:text-slate-400">
@@ -914,11 +912,11 @@ export const LegalModal: React.FC<{
 };
 
 export const Footer: React.FC<{
-    config: SiteConfig; 
+    config: SiteConfig;
     onNav: (page: string) => void;
     onOpenLegal: (type: 'terms' | 'privacy') => void;
-}> = memo(({config, onNav, onOpenLegal}) => {
-    
+}> = memo(({ config, onNav, onOpenLegal }) => {
+
     // Fallback if links are empty
     const instagramLink = config.contact.instagram || 'https://instagram.com';
     const facebookLink = config.contact.facebook || 'https://facebook.com';
@@ -940,17 +938,17 @@ export const Footer: React.FC<{
                             <a href={facebookLink} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-blue-600 hover:text-white transition"><Facebook size={20} /></a>
                         </div>
                     </div>
-                    
+
                     <div>
                         <h3 className="font-bold text-lg mb-6 flex items-center gap-2">{config.footer?.titleNavigation || 'Navegación'}</h3>
                         <ul className="space-y-3 text-sm text-slate-400">
-                            <li><button onClick={() => onNav('home')} className="hover:text-blue-400 transition flex items-center gap-2"><ChevronRight size={14}/> Inicio</button></li>
-                            <li><button onClick={() => onNav('shop')} className="hover:text-blue-400 transition flex items-center gap-2"><ChevronRight size={14}/> Catálogo</button></li>
-                            <li><button onClick={() => onNav('services')} className="hover:text-blue-400 transition flex items-center gap-2"><ChevronRight size={14}/> Servicios</button></li>
-                            <li><button onClick={() => onNav('contact')} className="hover:text-blue-400 transition flex items-center gap-2"><ChevronRight size={14}/> Contacto</button></li>
+                            <li><button onClick={() => onNav('home')} className="hover:text-blue-400 transition flex items-center gap-2"><ChevronRight size={14} /> Inicio</button></li>
+                            <li><button onClick={() => onNav('shop')} className="hover:text-blue-400 transition flex items-center gap-2"><ChevronRight size={14} /> Catálogo</button></li>
+                            <li><button onClick={() => onNav('services')} className="hover:text-blue-400 transition flex items-center gap-2"><ChevronRight size={14} /> Servicios</button></li>
+                            <li><button onClick={() => onNav('contact')} className="hover:text-blue-400 transition flex items-center gap-2"><ChevronRight size={14} /> Contacto</button></li>
                         </ul>
                     </div>
-                    
+
                     <div>
                         <h3 className="font-bold text-lg mb-6">{config.footer?.titleContact || 'Contacto'}</h3>
                         <ul className="space-y-4 text-sm text-slate-400">
@@ -970,22 +968,22 @@ export const Footer: React.FC<{
                     </div>
 
                     <div>
-                         <h3 className="font-bold text-lg mb-6">{config.footer?.titleHours || 'Horarios'}</h3>
-                         <div className="space-y-4 text-sm">
-                             <div className="bg-slate-800/50 p-4 rounded-xl border border-slate-800">
-                                 <div className="flex items-center gap-2 text-slate-300 font-bold mb-1">
-                                     <ClockIcon /> {config.footer?.labelCustomerService || 'Atención al Cliente'}
-                                 </div>
-                                 <p className="text-slate-400">{config.contact.hours}</p>
-                             </div>
-                             <div>
-                                 <p className="text-slate-500 font-bold mb-1">{config.footer?.labelShipping || 'Envíos'}</p>
-                                 <p className="text-slate-400">{config.footer?.textShippingHours || 'Lun a Sáb 8:00 - 20:00 hs'}</p>
-                             </div>
-                         </div>
+                        <h3 className="font-bold text-lg mb-6">{config.footer?.titleHours || 'Horarios'}</h3>
+                        <div className="space-y-4 text-sm">
+                            <div className="bg-slate-800/50 p-4 rounded-xl border border-slate-800">
+                                <div className="flex items-center gap-2 text-slate-300 font-bold mb-1">
+                                    <ClockIcon /> {config.footer?.labelCustomerService || 'Atención al Cliente'}
+                                </div>
+                                <p className="text-slate-400">{config.contact.hours}</p>
+                            </div>
+                            <div>
+                                <p className="text-slate-500 font-bold mb-1">{config.footer?.labelShipping || 'Envíos'}</p>
+                                <p className="text-slate-400">{config.footer?.textShippingHours || 'Lun a Sáb 8:00 - 20:00 hs'}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
+
                 <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
                     <p>{config.footer?.copyrightText || '© 2024 Punto Electro. Todos los derechos reservados.'}</p>
                     <div className="flex items-center gap-6">
@@ -999,5 +997,5 @@ export const Footer: React.FC<{
 });
 
 const ClockIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
 );
